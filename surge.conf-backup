@@ -2,7 +2,9 @@
 loglevel = notify
 skip-proxy = 127.0.0.1, 192.168.0.0/16, 193.168.0.0/24, 10.0.0.0/8, 172.16.0.0/12, 100.64.0.0/10,localhost,*.local
 dns-server = system, 223.5.5.5, 119.29.29.29, 8.8.4.4, 1.1.1.1
-
+#external-controller-access = passw@127.0.0.1:6170
+#http-listen = 0.0.0.0:8888
+#socks5-listen = 0.0.0.0:8889
 // Auto
 bypass-system = true
 allow-wifi-access = false
@@ -18,11 +20,16 @@ use-keyword-filter = false
 [Proxy]
 🇨🇳Google = ss, abc, 8080, encrypt-method = chacha20, password = password
 🇸🇬Aliyun = ss, abc, 8080, encrypt-method = chacha20, password = password
+## Ad-Block = reject
+## Ad-Pass = direct
+## Ad-GIF = reject-tinygif
 
 [Proxy Group]
 Proxy = select, Auto, 🇨🇳Google, 🇸🇬Aliyun
 Auto = fallback, DIRECT, 🇨🇳Google, 🇸🇬Aliyun, url = http://www.apkfind.com
 Video = url-test, DIRECT, 🇨🇳Google, 🇸🇬Aliyun, url = http://www.apkfind.com
+## AdBlock = select, Ad-GIF,Ad-Block,Ad-Pass
+## Scene = ssid, default = Auto, cellular = 🇨🇳Google 
 
 [Rule]
 USER-AGENT,App%20Store*,DIRECT
@@ -35,10 +42,13 @@ DOMAIN,guzzoni.apple.com,DIRECT
 DOMAIN-SUFFIX,cdn-apple.com,DIRECT
 # RULE-SET
 RULE-SET,SYSTEM,DIRECT
-RULE-SET,https://raw.githubusercontent.com/Fsick/Surge/master/surge-list/ad-reject.list,REJECT
-RULE-SET,https://raw.githubusercontent.com/Fsick/Surge/master/surge-list/ad-video-reject.list,REJECT
-RULE-SET,https://raw.githubusercontent.com/Fsick/Surge/master/surge-list/proxy.list,Proxy
-RULE-SET,https://raw.githubusercontent.com/Fsick/Surge/master/surge-list/direct.list,DIRECT
+RULE-SET,https://github.com/scomper/surge-list/raw/master/apple.list,Proxy
+RULE-SET,https://github.com/scomper/surge-list/raw/master/adblock.list,AdBlock
+RULE-SET,https://github.com/scomper/surge-list/raw/master/reject.list,AdBlock
+RULE-SET,https://github.com/scomper/surge-list/raw/master/cn.list,DIRECT
+RULE-SET,https://github.com/scomper/surge-list/raw/master/video.list,Video
+RULE-SET,https://raw.githubusercontent.com/hxueh/surge-list/master/proxy.list,Proxy
+RULE-SET,https://github.com/scomper/surge-list/raw/master/telegram.list,Proxy
 RULE-SET,LAN,DIRECT
 # GeoIP CN
 GEOIP,CN,DIRECT
@@ -156,6 +166,10 @@ cdn.pcbeta.css.inimc.com = pcbeta.com
 [Header Rewrite]
 ^http://www\.biquge\.com\.tw header-del Cookie
 ^https?://www\.zhihu\.com header-replace User-Agent Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_4) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.1 Safari/605.1.15
+
+## [SSID Setting]
+# "Apple Store" suspend=true #
+# "iPhone X" cellular-mode=true #
 
 [MITM]
 hostname = capi.douyucdn.cn, apiv2.douyucdn.cn, staticlive.douyucdn.cn, api.weibo.cn, *.nga.cn, als.baidu.com, static.api.m.panda.tv
